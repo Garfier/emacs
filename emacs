@@ -1,7 +1,12 @@
 ;; show line, column number on minibuffer
 (add-to-list 'load-path "~/.emacs.d/settings")
-;; set ido-mode open
+(add-to-list 'load-path "~/.emacs.d/xcscope")
 
+;; xcscope
+(require 'xcscope)
+(cscope-setup)
+
+;; set ido-mode open
 (ido-mode t)
 
 (setq column-number-mode t)
