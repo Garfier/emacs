@@ -22,6 +22,11 @@
 ;; set M-/ as key for Mark Set 
 (global-set-key (kbd "M-/") 'set-mark-command)
 
+;; switch to other window
+(global-unset-key [C-x x])
+(global-unset-key [C-x C-x])
+(global-set-key (kbd "C-x C-x") 'other-window)
+
 ;; set y meas yes, n means no
 (fset 'yes-or-no-p 'y-or-n-p)
 
