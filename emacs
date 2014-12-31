@@ -1,6 +1,41 @@
 ;; show line, column number on minibuffer
 (add-to-list 'load-path "~/.emacs.d/settings")
 (add-to-list 'load-path "~/.emacs.d/xcscope")
+(add-to-list 'load-path "~/.emacs.d/tabbar")
+(add-to-list 'load-path "~/.emacs.d/sr-speedbar")
+(add-to-list 'load-path "~/.emacs.d/cedet/")
+(add-to-list 'load-path "~/.emacs.d/cedet/semantic")
+(add-to-list 'load-path "~/.emacs.d/cedet/semantic/bovine")
+(add-to-list 'load-path "~/.emacs.d/cedet/semantic/wisent")
+(add-to-list 'load-path "~/.emacs.d/cedet/semantic/symref")
+(add-to-list 'load-path "~/.emacs.d/cedet/semantic/ctags")
+(add-to-list 'load-path "~/.emacs.d/cedet/quickpeek")
+(add-to-list 'load-path "~/.emacs.d/cedet/eieio")
+(add-to-list 'load-path "~/.emacs.d/cedet/ede")
+(add-to-list 'load-path "~/.emacs.d/cedet/contrib")
+(add-to-list 'load-path "~/.emacs.d/cedet/common")
+(add-to-list 'load-path "~/.emacs.d/cedet/cogre")
+(add-to-list 'load-path "~/.emacs.d/cedet/www")
+(add-to-list 'load-path "~/.emacs.d/cedet/srecode")
+(add-to-list 'load-path "~/.emacs.d/cedet/speedbar")
+
+;; semantic
+(require 'cedet) 
+(semantic-load-enable-code-helpers)
+(semantic-load-enable-minimum-features)
+(semantic-load-enable-code-helpers)
+(semantic-load-enable-guady-code-helpers)
+(semantic-load-enable-excessive-code-helpers)
+(semantic-load-enable-semantic-debugging-helpers)
+(global-set-key [(control tab)] 'semantic-ia-complete-symbol-menu)
+
+;; tabbar
+(require 'tabbar)
+(add-hook 'after-init-hook '(lambda () (tabbar-mode)))
+
+;; sr-sppedbar
+(require 'sr-speedbar)
+(add-hook 'after-init-hook '(lambda () (sr-speedbar-toggle)));;开启程序即启用
 
 ;; xcscope
 (require 'xcscope)
