@@ -1,41 +1,53 @@
 ;; show line, column number on minibuffer
 (add-to-list 'load-path "~/.emacs.d/settings")
+(add-to-list 'load-path "~/.emacs.d/cl-lib")
 (add-to-list 'load-path "~/.emacs.d/xcscope")
 (add-to-list 'load-path "~/.emacs.d/tabbar")
 (add-to-list 'load-path "~/.emacs.d/sr-speedbar")
-(add-to-list 'load-path "~/.emacs.d/cedet/")
-(add-to-list 'load-path "~/.emacs.d/cedet/semantic")
-(add-to-list 'load-path "~/.emacs.d/cedet/semantic/bovine")
-(add-to-list 'load-path "~/.emacs.d/cedet/semantic/wisent")
-(add-to-list 'load-path "~/.emacs.d/cedet/semantic/symref")
-(add-to-list 'load-path "~/.emacs.d/cedet/semantic/ctags")
-(add-to-list 'load-path "~/.emacs.d/cedet/quickpeek")
-(add-to-list 'load-path "~/.emacs.d/cedet/eieio")
-(add-to-list 'load-path "~/.emacs.d/cedet/ede")
-(add-to-list 'load-path "~/.emacs.d/cedet/contrib")
-(add-to-list 'load-path "~/.emacs.d/cedet/common")
-(add-to-list 'load-path "~/.emacs.d/cedet/cogre")
-(add-to-list 'load-path "~/.emacs.d/cedet/www")
-(add-to-list 'load-path "~/.emacs.d/cedet/srecode")
-(add-to-list 'load-path "~/.emacs.d/cedet/speedbar")
-(add-to-list 'load-path "~/.emacs.d/helm")
+(add-to-list 'load-path "~/.emacs.d/highlight")
+;; (add-to-list 'load-path "~/.emacs.d/helm")
+
+
+(autoload 'idle-highlight-mode "idle-highlight" "highlight the word the point is on" t)
+(add-hook 'find-file-hook 'idle-highlight-mode)
 
 ;; semantic
 (require 'cedet) 
-(semantic-load-enable-code-helpers) 
+;; (semantic-load-enable-code-helpers) 
 (global-set-key [(control tab)] 'semantic-ia-complete-symbol-menu)
+(custom-set-variables
+ '(semantic-default-submodes (quote (global-semantic-decoration-mode
+                                     global-semantic-idle-completions-mode
+                                     global-semantic-idle-scheduler-mode
+                                     global-semanticdb-minor-mode
+                                     global-semantic-idle-summary-mode
+                                     global-semantic-mru-bookmark-mode)))
+ '(semantic-idle-scheduler-idle-time 3))
+(semantic-mode)
+;; smart complitions
+(require 'semantic/ia)
+(setq-mode-local c-mode semanticdb-find-default-throttle
+                                  '(project unloaded system
+                                            recursive))
+(setq-mode-local c++-mode semanticdb-find-default-throttle
+                                  '(project unloaded system
+                                            recursive))
+;;;; Include settings
+(require 'semantic/bovine/gcc)
+(require 'semantic/bovine/c)
 
 ;; helm
-(require 'helm-config)
-(helm-mode 1)
-(define-key global-map [remap find-file] 'helm-find-files)
-(define-key global-map [remap occur] 'helm-occur)
-(define-key global-map [remap list-buffers] 'helm-buffers-list)
-(define-key global-map [remap dabbrev-expand] 'helm-dabbrev)
-(unless (boundp 'completion-in-region-function)
-  (define-key lisp-interaction-mode-map [remap completion-at-point] 'helm-lisp-completion-at-point)
-  (define-key emacs-lisp-mode-map       [remap completion-at-point] 'helm-lisp-completion-at-point))
-(global-set-key (kbd "C-x f") 'helm-find-files)
+;;(require 'helm-config)
+;;(helm-mode 1)
+;;(define-key global-map [remap find-file] 'helm-find-files)
+;;(define-key global-map [remap occur] 'helm-occur)
+;;(define-key global-map [remap list-buffers] 'helm-buffers-list)
+;;(define-key global-map [remap dabbrev-expand] 'helm-dabbrev)
+;;(unless (boundp 'completion-in-region-function)
+;;  (define-key lisp-interaction-mode-map [remap completion-at-point] 'helm-lisp-completion-at-point)
+;;  (define-key emacs-lisp-mode-map       [remap completion-at-point] 'helm-lisp-completion-at-point))
+;;(global-set-key (kbd "C-x f") 'helm-find-files)
+
 ;; tabbar
 (require 'tabbar)
 (add-hook 'after-init-hook '(lambda () (tabbar-mode)))
@@ -100,3 +112,7 @@
 (global-set-key (kbd "C-<return>") 'newline)
 
 (global-set-key (kbd "M-s") 'isearch-forward-symbol-at-point)
+
+
+;; modes
+(c++-mode)
