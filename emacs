@@ -18,17 +18,24 @@
 (add-to-list 'load-path "~/.emacs.d/cedet/www")
 (add-to-list 'load-path "~/.emacs.d/cedet/srecode")
 (add-to-list 'load-path "~/.emacs.d/cedet/speedbar")
+(add-to-list 'load-path "~/.emacs.d/helm")
 
 ;; semantic
 (require 'cedet) 
-(semantic-load-enable-code-helpers)
-(semantic-load-enable-minimum-features)
-(semantic-load-enable-code-helpers)
-(semantic-load-enable-guady-code-helpers)
-(semantic-load-enable-excessive-code-helpers)
-(semantic-load-enable-semantic-debugging-helpers)
+(semantic-load-enable-code-helpers) 
 (global-set-key [(control tab)] 'semantic-ia-complete-symbol-menu)
 
+;; helm
+(require 'helm-config)
+(helm-mode 1)
+(define-key global-map [remap find-file] 'helm-find-files)
+(define-key global-map [remap occur] 'helm-occur)
+(define-key global-map [remap list-buffers] 'helm-buffers-list)
+(define-key global-map [remap dabbrev-expand] 'helm-dabbrev)
+(unless (boundp 'completion-in-region-function)
+  (define-key lisp-interaction-mode-map [remap completion-at-point] 'helm-lisp-completion-at-point)
+  (define-key emacs-lisp-mode-map       [remap completion-at-point] 'helm-lisp-completion-at-point))
+(global-set-key (kbd "C-x f") 'helm-find-files)
 ;; tabbar
 (require 'tabbar)
 (add-hook 'after-init-hook '(lambda () (tabbar-mode)))
@@ -92,4 +99,4 @@
 (global-set-key "\C-m" 'newline-and-indent)
 (global-set-key (kbd "C-<return>") 'newline)
 
-(global-set-key (kbd "M-s") 'word-search-forward)
+(global-set-key (kbd "M-s") 'isearch-forward-symbol-at-point)
